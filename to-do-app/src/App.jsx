@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import SignUp from './components/signup/SignUp'
+import { Link, BrowserRouter as Router } from 'react-router-dom';
+import AppRouter from './routes/AppRouter';
+import { LOGIN_ROUTE, SIGNUP_ROUTE, TODO_ROUTE } from './routes/consts';
 
 
 
 function App() {
 
-
-  console.log(import.meta.env.VITE_APP_TEST) // 123
   return (
-    <>
-      <SignUp />
-    </>
+    <Router>
+      <Link to={TODO_ROUTE}>To Do</Link>
+      <AppRouter />
+    </Router>
   )
 }
 
