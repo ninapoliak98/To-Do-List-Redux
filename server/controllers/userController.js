@@ -32,7 +32,7 @@ class UserController {
       if (!comparePassword) throw new Error('Password is not correct')
 
       const token = generateJwt(user.id, user.email)
-      return res.json({ token })
+      return res.status(200).json({ success: true, token })
 
     } catch (error) {
       next(error)
@@ -40,7 +40,7 @@ class UserController {
   }
   async check(req, res, next) {
     try {
-      const token = generateJwt(req.user.id, req.user.email, req.user.role)
+      const token = generateJwt(req.user.id, req.user.email)
       return res.json({ token })
     } catch (error) {
       next(error)

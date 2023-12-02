@@ -1,14 +1,24 @@
-import { Link, BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import AppRouter from './routes/AppRouter';
-import { LOGIN_ROUTE, SIGNUP_ROUTE, TODO_ROUTE } from './routes/consts';
-
+import { useCheckUserQuery } from './store/api/user.api';
+import { useEffect, useState } from 'react';
 
 
 function App() {
 
+  const { isLoading, data, isSuccess } = useCheckUserQuery()
+
+
+  useEffect(() => {
+    if (isSuccess) localStorage.setItem('user', data.token)
+  }, [isSuccess])
+
+  if (isLoading) {
+    return <> need to add a spinner </>
+  }
+
   return (
     <Router>
-      <Link to={TODO_ROUTE}>To Do</Link>
       <AppRouter />
     </Router>
   )

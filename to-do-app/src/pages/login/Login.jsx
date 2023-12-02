@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useLoginUserMutation } from '../../store/api/user.api';
-import { Link } from 'react-router-dom'
-import { SIGNUP_ROUTE } from '../../routes/consts';
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { SIGNUP_ROUTE, TODO_ROUTE } from '../../routes/consts';
+import { useActions } from '../../hooks/useActions';
+import { useAuth } from '../../hooks/useAuth';
+
 
 const defaultValues = {
   email: "",
@@ -9,22 +12,35 @@ const defaultValues = {
 }
 
 const Login = () => {
+
+  const navigate = useNavigate()
+
   const [user, setUser] = useState(defaultValues)
 
   const [loginUser] = useLoginUserMutation();
 
+  const { isAuth } = useActions();
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log(user)
-    loginUser(user).then((data) => {
+  const { auth } = useAuth()
+
+
+
+
+  const handleSubmit = async e => {
+    try {
+      e.preventDefault()
+      const data = await loginUser(user)
       localStorage.setItem('user', data.data.token)
+      isAuth()
       setUser(defaultValues)
+      if (localStorage.getItem('user')) navigate(TODO_ROUTE)
+
+    } catch (error) {
+      console.log(error.message)
     }
-    )
-    console.log(localStorage.getItem('user'))
   }
 
+  console.log(auth)
   return (
     <div>
       <form onSubmit={handleSubmit}>
