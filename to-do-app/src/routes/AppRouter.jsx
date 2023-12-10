@@ -10,7 +10,7 @@ const AppRouter = () => {
         <Route key={index} path={path} element={<Component />} />
       )}
 
-      {AuthRoutes.map(({ path, Component }, index) =>
+      {localStorage.getItem('user') && AuthRoutes.map(({ path, Component }, index) =>
         <Route key={index} path={path} element={<Component />} />
       )}
 
