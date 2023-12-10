@@ -19,9 +19,7 @@ const Login = () => {
 
   const [loginUser] = useLoginUserMutation();
 
-  const { isAuth } = useActions();
-
-  const { auth } = useAuth()
+  const { isAuth } = useActions()
 
 
 
@@ -31,7 +29,7 @@ const Login = () => {
       e.preventDefault()
       const data = await loginUser(user)
       localStorage.setItem('user', data.data.token)
-      isAuth()
+      isAuth(true)
       setUser(defaultValues)
       if (localStorage.getItem('user')) navigate(TODO_ROUTE)
 
@@ -40,7 +38,6 @@ const Login = () => {
     }
   }
 
-  console.log(auth)
   return (
     <div>
       <form onSubmit={handleSubmit}>
