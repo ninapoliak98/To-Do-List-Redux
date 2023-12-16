@@ -13,7 +13,7 @@ export const userApi = api.injectEndpoints({
         },
       }),
       invalidatesTags: () => [{
-        type: 'user',
+        type: 'User',
       }]
     }),
     loginUser: builder.mutation({
@@ -23,7 +23,7 @@ export const userApi = api.injectEndpoints({
         body,
       }),
       invalidatesTags: () => [{
-        type: 'user',
+        type: 'User',
       }]
     }),
     checkUser: builder.query({

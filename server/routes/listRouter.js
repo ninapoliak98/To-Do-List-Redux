@@ -4,8 +4,9 @@ const listController = require('../controllers/listController')
 
 
 
-router.post('/:id', listController.create)
+router.post('/', listController.create)
 router.get('/', listController.getAll)
+router.get('/:id', listController.getOne)
 router.put('/:id', listController.changeName)
 router.delete('/:id', listController.removeList)
 

@@ -16,6 +16,8 @@ class ListController {
 
       await Todolist.create({ name, userId: user.id })
 
+      res.json(list)
+
     } catch (error) {
       next(error)
     }
@@ -29,9 +31,20 @@ class ListController {
       const allUserLists = await Todolist.findAll({ where: { userId: user.id } })
 
 
-      res.json({ allUserLists })
+      res.json(allUserLists)
 
 
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getOne(req, res, next) {
+    try {
+      const { id } = req.params
+      const token = req.headers.authorization.split(' ')[1]
+      const user = await getTokenInfo(token, User)
+      const list = await Todolist.findOne({ where: { id, userId: user.id } })
+      res.json(list)
     } catch (error) {
       next(error)
     }

@@ -6,16 +6,16 @@ class TodoController {
     try {
       const token = req.headers.authorization.split(' ')[1]
       const user = await getTokenInfo(token, User)
-      const { task, id } = req.body
+      const { task, listId } = req.body
 
 
       if (!task) throw new Error('task is empty')
 
       await Todo.create({
-        task, isComplete: false, todoListId: id, userId: user.id
+        task, isComplete: false, todoListId: listId, userId: user.id
       })
 
-
+      res.json('Got all tasks')
     } catch (error) {
       next(error)
     }
@@ -23,9 +23,9 @@ class TodoController {
 
   async getListTasks(req, res, next) {
     try {
-      const { id } = req.body
+      const { id } = req.params
       const allTasks = await Todo.findAll({ where: { todoListId: id } })
-      res.json({ allTasks })
+      res.json(allTasks)
     } catch (error) {
       next(error)
     }
@@ -38,7 +38,7 @@ class TodoController {
 
       if (!task) throw new Error('task does not exist')
 
-      res.json({ task })
+      res.json(task)
 
     } catch (error) {
       next(error)
@@ -58,7 +58,7 @@ class TodoController {
 
       if (getTask) await getTask.update({ task: task })
 
-      res.json({ getTask })
+      res.json(getTask)
 
     } catch (error) {
       next(error)
