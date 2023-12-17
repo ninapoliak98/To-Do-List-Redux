@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import Task from './Task'
 import { useAddTaskMutation, useGetTasksQuery } from '../store/api/todo.api'
 
-const List = (props) => {
-  const { children, listName, listId } = props
+const List = ({ listName, listId }) => {
 
   const initialData = {
     task: '',
@@ -34,6 +33,8 @@ const List = (props) => {
 
   return (
     <div>
+      <button>back to list</button>
+      <button>x</button>
       <h2>{listName}</h2>
 
       <form>
@@ -43,9 +44,8 @@ const List = (props) => {
         </label>
         <button onClick={createTask} type='submit'>Add new task</button>
       </form>
-
       {isSuccess && tasks.map(item => (
-        <Task taskName={item.task} key={item.id} />
+        <Task taskName={item.task} key={item.id} isComplete={item.isComplete} id={item.id} refetch={refetch} />
       ))}
 
     </div>

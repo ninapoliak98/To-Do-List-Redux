@@ -39,6 +39,7 @@ const Todo = () => {
     }
   }
 
+
   if (isLoading) {
     return <div>Here should be spinner</div>
   }
@@ -55,7 +56,6 @@ const Todo = () => {
       </form>
       {isSuccess && data.map(list => (
         <Link to={LIST_ROUTE + `/${list.id}`} key={list.id}>{list.name}</Link>
-        // <TaskList listId={list.id} listName={list.name} key={list.id} />
       ))}
     </div>
   )

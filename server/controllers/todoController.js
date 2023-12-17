@@ -49,14 +49,15 @@ class TodoController {
   async changeTask(req, res, next) {
     try {
       const { id } = req.params
-      const { task } = req.body
+      const { isComplete } = req.body
       const getTask = await Todo.findOne({ where: { id } })
 
       if (!getTask) throw new Error('There is no such task')
 
-      if (task === getTask.task) throw new Error('The tasks are the same')
 
-      if (getTask) await getTask.update({ task: task })
+      if (getTask) await getTask.update({ isComplete: isComplete })
+
+      console.log(isComplete)
 
       res.json(getTask)
 

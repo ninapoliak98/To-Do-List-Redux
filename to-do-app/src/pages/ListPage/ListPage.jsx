@@ -1,14 +1,17 @@
 import React from 'react'
-
-// import List from '../../components/List.jsx'
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetListQuery } from '../../store/api/todo.api'
 import List from '../../components/List'
 
 function ListPage() {
 
+  const navigate = useNavigate()
+  const { id } = useParams();
+  const { data: list, isSuccess, isLoading, isError } = useGetListQuery(id)
 
-  const id = window.location.pathname.split('/').pop()
-  const { data: list, isSuccess, isLoading } = useGetListQuery(id)
+  if (isSuccess && !list) {
+    return <div>List does not exist</div>
+  }
 
 
   if (isLoading) {

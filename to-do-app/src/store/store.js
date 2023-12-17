@@ -3,9 +3,11 @@ import { api } from './api/api'
 import { reducer as authReducer } from "./auth/auth.slice"
 
 
+
 const reducers = combineReducers({
   [api.reducerPath]: api.reducer,
-  auth: authReducer
+  auth: authReducer,
+
 
 })
 
