@@ -1,53 +1,50 @@
 import React, { useState } from 'react'
 import Task from './Task'
-import { useAddTaskMutation, useGetTasksQuery } from '../store/api/todo.api'
+import Modal from './Modal'
+import CreateTask from './CreateTask'
+import { useGetTasksQuery, useDeleteListMutation, useUpdateListMutation } from '../store/api/todo.api'
+import { useNavigate } from 'react-router-dom'
+import { TODO_ROUTE } from '../routes/consts'
 
 const List = ({ listName, listId }) => {
 
-  const initialData = {
-    task: '',
-    listId: listId,
-    isComplete: false,
-  }
 
-  const [task, setTask] = useState(initialData)
+  const navigate = useNavigate()
+  const [deleteList] = useDeleteListMutation()
+  const [updateList] = useUpdateListMutation()
+  const { data: tasks, isSuccess } = useGetTasksQuery(listId)
 
 
-  const [addTask] = useAddTaskMutation()
-  const { data: tasks, isSuccess, refetch } = useGetTasksQuery(listId)
 
-  console.log(tasks)
-
-  const createTask = async (e) => {
+  const removeList = async (id) => {
     try {
-      e.preventDefault()
-      await addTask(task)
-      setTask(initialData)
-      await refetch()
+      await deleteList(id)
+      navigate(TODO_ROUTE)
     } catch (error) {
-      console.error(error.message);
+      console.log(error)
     }
   }
 
-
+  const changeListName = async (id, body) => {
+    try {
+      await updateList({ id, name: body })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div>
       <button>back to list</button>
-      <button>x</button>
+      <Modal clickHandler={changeListName} id={listId} />
+      <button onClick={() => removeList(listId)}>x</button>
       <h2>{listName}</h2>
 
-      <form>
-        <label>
-          Enter your new task
-          <input type="text" value={task.task} onChange={e => setTask({ ...task, task: e.target.value })} />
-        </label>
-        <button onClick={createTask} type='submit'>Add new task</button>
-      </form>
-      {isSuccess && tasks.map(item => (
-        <Task taskName={item.task} key={item.id} isComplete={item.isComplete} id={item.id} refetch={refetch} />
-      ))}
+      <CreateTask listId={listId} />
 
+      {isSuccess && tasks.map(item => (
+        <Task taskName={item.task} key={item.id} isComplete={item.isComplete} id={item.id} listId={listId} />
+      ))}
     </div>
   )
 }

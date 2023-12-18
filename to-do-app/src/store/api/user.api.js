@@ -29,7 +29,8 @@ export const userApi = api.injectEndpoints({
     checkUser: builder.query({
       query: () => '/user/auth',
       method: "GET",
-    })
+    }),
+    providesTags: [{ type: 'User' }],
   }),
 })
 

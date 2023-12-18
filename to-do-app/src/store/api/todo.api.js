@@ -4,17 +4,17 @@ export const userApi = api.injectEndpoints({
   endpoints: builder => ({
     getLists: builder.query({
       query: () => ({
-        providesTags: [{ type: 'List' }],
         url: '/list',
         method: 'GET',
       }),
+      providesTags: [{ type: 'List' }],
     }),
     getList: builder.query({
       query: (id) => ({
-        providesTags: [{ type: 'List' }],
         url: `/list/${id}`,
         method: 'GET',
       }),
+      providesTags: [{ type: 'List' }],
     }),
     createList: builder.mutation({
       query: (body) => ({
@@ -26,10 +26,10 @@ export const userApi = api.injectEndpoints({
     }),
     getTasks: builder.query({
       query: (id) => ({
-        providesTags: [{ type: 'Todo' }],
         url: `/todo/${id}`,
         method: 'GET',
       }),
+      providesTags: [{ type: 'Todo' }],
     }),
     addTask: builder.mutation({
       query: (body) => ({
@@ -56,8 +56,24 @@ export const userApi = api.injectEndpoints({
         method: 'DELETE'
       }),
       invalidatesTags: [{ type: 'Todo' }],
+    }),
+    deleteList: builder.mutation({
+      query: (id) => ({
+        url: `/list/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: [{ type: 'List' }],
+    }),
+    updateList: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/list/${id}`,
+        method: 'PUT',
+        body: body
+      }),
+      invalidatesTags: [{ type: 'List' }],
     })
-  })
+  }),
+
 })
 
 export const {
@@ -67,5 +83,7 @@ export const {
   useAddTaskMutation,
   useGetTasksQuery,
   useUpdateTaskMutation,
-  useDeleteTaskMutation
+  useDeleteTaskMutation,
+  useDeleteListMutation,
+  useUpdateListMutation
 } = userApi

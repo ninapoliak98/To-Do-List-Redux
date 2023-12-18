@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useUpdateTaskMutation, useDeleteTaskMutation } from '../store/api/todo.api'
 
-const Task = ({ taskName, isComplete, id, refetch }) => {
+const Task = ({ taskName, isComplete, id }) => {
 
   const [updateTask] = useUpdateTaskMutation()
   const [deleteTask] = useDeleteTaskMutation()
@@ -15,10 +15,9 @@ const Task = ({ taskName, isComplete, id, refetch }) => {
     }
   }
 
-  const removeTask = async (e) => {
+  const removeTask = async () => {
     try {
       await deleteTask(id)
-      refetch()
     } catch (error) {
       console.log(error)
     }
