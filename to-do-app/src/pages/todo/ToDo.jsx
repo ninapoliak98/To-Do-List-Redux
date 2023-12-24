@@ -1,33 +1,19 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { LOGIN_ROUTE, LIST_ROUTE } from "../../routes/consts"
-import { useActions } from '../../hooks/useActions'
-import { useGetListsQuery, useDeleteListMutation, useUpdateListMutation } from '../../store/api/todo.api'
+import { Link } from 'react-router-dom'
+import { LIST_ROUTE } from "../../routes/consts"
+import { useGetListsQuery, useDeleteListMutation } from '../../store/api/todo.api'
 import CreateList from '../../components/CreateList'
 
 const Todo = () => {
 
-  const navigate = useNavigate()
+  const { isLoading, data, isSuccess } = useGetListsQuery()
 
-  const { isLoading, data, isSuccess, refetch } = useGetListsQuery()
-  const { isAuth } = useActions()
   const [deleteList] = useDeleteListMutation()
-  const [updateList] = useUpdateListMutation()
 
-  const logout = () => {
-    try {
-      localStorage.removeItem('user')
-      isAuth(false)
-      navigate(LOGIN_ROUTE)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   const removeList = async (id) => {
     try {
       await deleteList(id)
-      // await refetch()
     } catch (error) {
       console.log(error)
     }
@@ -40,8 +26,6 @@ const Todo = () => {
 
   return (
     <div>
-      <button onClick={logout}>Logout</button>
-
       <CreateList />
       <ul>
         {isSuccess && data.map(list => (

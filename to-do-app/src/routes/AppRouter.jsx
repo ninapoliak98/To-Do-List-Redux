@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { AuthRoutes, PublicRoutes } from '../routes'
 import NotFound from '../pages/404/NotFound'
 import { useAuth } from '../hooks/useAuth'
+import { Login } from '../pages'
 
 const AppRouter = () => {
 
@@ -18,8 +19,8 @@ const AppRouter = () => {
       {auth && AuthRoutes.map(({ path, Component }, index) =>
         <Route key={index} path={path} element={<Component />} />
       )}
+      {auth ? <Route path='*' element={<NotFound />} /> : <Route path='*' element={<Login />} />}
 
-      <Route path='*' element={<NotFound />} />
 
     </Routes>
   )

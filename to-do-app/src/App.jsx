@@ -4,6 +4,7 @@ import { useCheckUserQuery } from './store/api/user.api';
 import { useEffect } from 'react';
 import { useActions } from './hooks/useActions';
 import { useAuth } from './hooks/useAuth';
+import NavBar from './components/NavBar';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <Router>
+      <NavBar />
       <AppRouter />
     </Router>
   )
