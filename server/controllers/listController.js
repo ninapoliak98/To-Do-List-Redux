@@ -1,25 +1,29 @@
 const { Todolist, User, Todo } = require("../models/models")
 const { getTokenInfo } = require("../helpers/getTokenInfo")
+const ApiError = require('../errors/ApiError')
 
 
 class ListController {
   async create(req, res, next) {
     try {
       const { name } = req.body
-      if (!name) throw new Error('No name in list')
-
       const token = req.headers.authorization.split(' ')[1]
       const user = await getTokenInfo(token, User)
-
       const list = await Todolist.findOne({ where: { name, userId: user.id } })
-      if (list) throw new Error('list with this name already exists')
+
+      if (!name) {
+        return next(ApiError.unprocessable('Name input was left blank'))
+      }
+      if (list) {
+        return next(ApiError.forbiden('The list name is already used'))
+      }
 
       await Todolist.create({ name, userId: user.id })
 
-      res.json(list)
+      res.status(201).json(list)
 
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
 
@@ -31,11 +35,11 @@ class ListController {
       const allUserLists = await Todolist.findAll({ where: { userId: user.id } })
 
 
-      res.json(allUserLists)
+      res.status(200).json(allUserLists)
 
 
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
   async getOne(req, res, next) {
@@ -44,9 +48,9 @@ class ListController {
       const token = req.headers.authorization.split(' ')[1]
       const user = await getTokenInfo(token, User)
       const list = await Todolist.findOne({ where: { id, userId: user.id } })
-      res.json(list)
+      res.status(200).json(list)
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
 
@@ -59,16 +63,22 @@ class ListController {
       const list = await Todolist.findOne({ where: { id: id, userId: user.id } })
       const checkName = await Todolist.findOne({ where: { name: name, userId: user.id } })
 
-      if (!name) throw new Error('no name entered')
+      if (!name) {
+        return next(ApiError.unprocessable('Name input was left blank'))
+      }
 
-      if (checkName) throw new Error('this name already exists in user list')
+      if (checkName) {
+        return next(ApiError.forbiden('The name is already used'))
+      }
 
-      if (list) await list.update({ name: name })
+      if (list) {
+        await list.update({ name: name })
+      }
 
-      res.json('Changed Name Successfully')
+      res.status(200).json('name changed succesfully')
 
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
   async removeList(req, res, next) {
@@ -81,10 +91,10 @@ class ListController {
 
       Todolist.destroy({ where: { id: id, userId: user.id } })
 
-      res.json('Deleted Successfully')
+      res.status(200).json('Deleted Successfully')
 
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
 }

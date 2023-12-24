@@ -1,23 +1,25 @@
 const { Todo, User, Todolist } = require("../models/models")
 const { getTokenInfo } = require("../helpers/getTokenInfo")
+const ApiError = require('../errors/ApiError')
 
 class TodoController {
   async create(req, res, next) {
     try {
+      const { task, listId } = req.body
       const token = req.headers.authorization.split(' ')[1]
       const user = await getTokenInfo(token, User)
-      const { task, listId } = req.body
 
-
-      if (!task) throw new Error('task is empty')
+      if (!task) {
+        return next(ApiError.unprocessable('Name input was left blank'))
+      }
 
       await Todo.create({
         task, isComplete: false, todoListId: listId, userId: user.id
       })
 
-      res.json('Got all tasks')
+      res.status(201).json('Got all tasks')
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
 
@@ -25,9 +27,9 @@ class TodoController {
     try {
       const { id } = req.params
       const allTasks = await Todo.findAll({ where: { todoListId: id } })
-      res.json(allTasks)
+      res.status(200).json(allTasks)
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
 
@@ -36,12 +38,10 @@ class TodoController {
       const { id } = req.params
       const task = await Todo.findOne({ where: { id } })
 
-      if (!task) throw new Error('task does not exist')
-
-      res.json(task)
+      res.ststus(200).json(task)
 
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
 
     }
   }
@@ -52,17 +52,14 @@ class TodoController {
       const { isComplete } = req.body
       const getTask = await Todo.findOne({ where: { id } })
 
-      if (!getTask) throw new Error('There is no such task')
+      if (getTask) {
+        await getTask.update({ isComplete: isComplete })
+      }
 
-
-      if (getTask) await getTask.update({ isComplete: isComplete })
-
-      console.log(isComplete)
-
-      res.json(getTask)
+      res.status(200).json(getTask)
 
     } catch (error) {
-      next(error)
+      next(ApiError.badRequest(error.message))
     }
   }
 
@@ -70,17 +67,16 @@ class TodoController {
 
     try {
       const { id } = req.params
-      const { task } = req.body
       const getTask = await Todo.findOne({ where: { id } })
 
-      if (!getTask) throw new Error('There is no such task')
+      if (getTask) {
+        getTask.destroy()
+      }
 
-      if (getTask) getTask.destroy()
-
-      res.json("deletion successful")
+      res.status(200).json("deletion successful")
 
     } catch (error) {
-      new (error)
+      next(ApiError.badRequest(error.message))
     }
   }
 }
