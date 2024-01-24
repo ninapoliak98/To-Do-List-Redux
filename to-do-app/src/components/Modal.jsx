@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { faPenNib } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Modal = ({ clickHandler, id }) => {
 
@@ -8,31 +10,35 @@ const Modal = ({ clickHandler, id }) => {
   return (
     <div>
       <button
-        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className="appearance-none"
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Change List Name
+        <FontAwesomeIcon icon={faPenNib} size="lg" style={{ color: "#3f525f", }} />
       </button>
 
       {showModal ? (
         <>
           <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-shark-50 outline-none focus:outline-none">
+                <div className="flex items-start justify-center p-5 border-b border-solid border-shark-200 rounded-t">
+                  <h3 className="text-3xl font-semibold text-shark-600">
                     New List Name
                   </h3>
                 </div>
-                <label className='flex flex-col'>
-                  Change list name
-                  <input type="text" value={name} onChange={e => setName(e.target.value)} />
-                </label>
 
-                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+
+                <input
+                  type="text"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  placeholder='change list name...'
+                  className='bg-shark-50 flex mt-5 mb-5 w-full text-center border-none focus:outline-none text-shark-600' />
+
+                <div className="flex items-center justify-end p-6 border-t border-solid border-shark-200 rounded-b">
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
@@ -41,7 +47,7 @@ const Modal = ({ clickHandler, id }) => {
                     Close
                   </button>
                   <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-shark-300 text-shark-50 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
                       setShowModal(false)

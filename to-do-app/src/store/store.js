@@ -4,11 +4,10 @@ import { reducer as authReducer } from "./auth/auth.slice"
 
 
 
+
 const reducers = combineReducers({
   [api.reducerPath]: api.reducer,
   auth: authReducer,
-
-
 })
 
 export const store = configureStore({

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useAddTaskMutation } from '../store/api/todo.api'
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function CreateTask({ listId }) {
 
@@ -9,6 +11,7 @@ function CreateTask({ listId }) {
     isComplete: false,
   }
 
+  const [showModal, setShowModal] = useState(false);
   const [task, setTask] = useState(initialData)
   const [addTask] = useAddTaskMutation()
 
@@ -23,12 +26,23 @@ function CreateTask({ listId }) {
   }
 
   return (
-    <form>
-      <label>
-        Enter your new task
-        <input type="text" value={task.task} onChange={e => setTask({ ...task, task: e.target.value })} />
-      </label>
-      <button onClick={createTask} type='submit'>Add new task</button>
+    <form
+      className='flex w-full justify-center mb-10 mt-10'>
+      <button
+        onClick={createTask}
+        type='submit'
+        className='appearance-none'
+      >
+        <FontAwesomeIcon icon={faPlus} size="xl" style={{ color: "#3f525f", }} />
+      </button>
+
+      <input
+        type="text"
+        value={task.task}
+        onChange={e => setTask({ ...task, task: e.target.value })}
+        placeholder='create new task...'
+        className='ml-5  text-gray-600 w-full  focus:ring-shark-500 focus:border-shark-500 bg-transparent rounded h-11 border-none' />
+
     </form>
   )
 }

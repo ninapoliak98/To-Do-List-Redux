@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { useCreateListMutation } from '../store/api/todo.api'
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 
 const initialData = {
@@ -21,13 +24,21 @@ const CreateList = () => {
   }
 
   return (
-    <form>
-      <label>
-        Enter your new list name
-        <input type="text" value={listName.name} onChange={e => setListName({ ...listName, name: e.target.value })} />
-      </label>
-      <button onClick={addList} type='submit'>Add new list</button>
-    </form>
+    <div>
+      <form className='flex w-full justify-center mb-10 mt-10'>
+
+        <button onClick={addList} type='submit'
+          className='appearance-none'
+        ><FontAwesomeIcon icon={faPlus} size="xl" style={{ color: "#3f525f", }} /></button>
+        <input type="text"
+          value={listName.name}
+          onChange={e => setListName({ ...listName, name: e.target.value })}
+          className=' ml-5  text-gray-600 w-full focus:ring-shark-500 focus:border-shark-500  bg-transparent rounded h-11 border-none'
+          placeholder='add new list...'
+        />
+
+      </form>
+    </div>
   )
 }
 

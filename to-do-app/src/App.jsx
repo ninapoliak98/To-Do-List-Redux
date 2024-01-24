@@ -3,16 +3,13 @@ import AppRouter from './routes/AppRouter';
 import { useCheckUserQuery } from './store/api/user.api';
 import { useEffect } from 'react';
 import { useActions } from './hooks/useActions';
-import { useAuth } from './hooks/useAuth';
-import NavBar from './components/NavBar';
+
 
 
 function App() {
   const { isLoading, data, isSuccess } = useCheckUserQuery()
 
   const { isAuth } = useActions()
-  const { auth } = useAuth();
-
 
   useEffect(() => {
     if (isSuccess) {
@@ -27,7 +24,6 @@ function App() {
 
   return (
     <Router>
-      <NavBar />
       <AppRouter />
     </Router>
   )

@@ -7,20 +7,24 @@ class UserController {
   async signup(req, res, next) {
     try {
       const { email, password } = req.body
-      if (!email || !password) {
-        return next(ApiError.unprocessable('Email or Password input was left blank'))
+      if (!email) {
+        return next(ApiError.unprocessable('Email input was left blank'))
+      }
+
+      if (!password) {
+        return next(ApiError.unprocessable('Password input was left blank'))
       }
 
       const checkUser = await User.findOne({ where: { email } })
+
       if (checkUser) {
-        return next(ApiError.forbiden('The list name is already used'))
+        return next(ApiError.forbiden('User with this email already exists'))
       }
 
       const hashPassword = await bcrypt.hash(password, 5)
       const user = await User.create({ email, password: hashPassword })
-      const token = generateJwt(user.id, user.email)
 
-      res.status(201).json({ token })
+      res.status(201).json('You have signed up successfully')
 
     } catch (error) {
       next(ApiError.badRequest(error.message))

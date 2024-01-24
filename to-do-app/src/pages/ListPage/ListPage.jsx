@@ -4,6 +4,7 @@ import { useGetListQuery } from '../../store/api/todo.api'
 import List from '../../components/List'
 
 
+
 function ListPage() {
 
   const { id } = useParams();
@@ -17,8 +18,10 @@ function ListPage() {
     return <div>Here should be spinner</div>
   }
 
+
   return (
-    <div>
+    <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0 bg-[#F9F9FA]'>
+
       {isSuccess && <List listName={list.name} listId={list.id} />}
 
     </div>

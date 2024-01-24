@@ -3,6 +3,9 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useActions } from '../hooks/useActions'
 import { useAuth } from '../hooks/useAuth'
 import { TODO_ROUTE } from '../routes/consts'
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavBar = () => {
 
@@ -20,11 +23,15 @@ const NavBar = () => {
     }
   }
   return (
-    <div>
+    <div className='flex justify-between mb-5'>
       {auth &&
         <>
-          <Link to={TODO_ROUTE}>To Do</Link>
-          <button onClick={logout}>logout</button>
+          <Link to={TODO_ROUTE}>
+            <FontAwesomeIcon icon={faHouse} size="xl" style={{ color: '#3f525f' }} />
+          </Link>
+          <button onClick={logout} className=' text-[#D9727A] '>
+            <FontAwesomeIcon icon={faDoorOpen} size="xl" />
+          </button>
         </>
       }
     </div>
