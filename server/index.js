@@ -10,12 +10,7 @@ const errorHandler = require('./middleware/ErrorHandlingMiddleware')
 
 const app = express()
 
-app.use(cors({
-  "origin": "https://to-do-list-redux-1.onrender.com",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}))
+app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', router)
