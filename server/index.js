@@ -13,7 +13,7 @@ const app = express()
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://your-frontend.com"
+    "https://to-do-list-redux-1.onrender.com"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
