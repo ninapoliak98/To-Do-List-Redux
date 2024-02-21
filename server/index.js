@@ -13,7 +13,7 @@ const app = express()
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://to-do-list-redux-1.onrender.com"
+    "https://api.render.com/deploy/srv-cnah9p6n7f5s73elk900?key=zA7nr3IcvVc"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: 'https://to-do-list-redux-1.onrender.com',
+  origin: 'https://api.render.com/deploy/srv-cnah9p6n7f5s73elk900?key=zA7nr3IcvVc',
   methods: ['GET', 'POST', 'DELETE', 'PUT']
 }))
 app.use(express.json())
